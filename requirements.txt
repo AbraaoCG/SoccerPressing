@@ -1,0 +1,20 @@
+# Dependências do projeto — Análise de Pressing (pressing_v1.ipynb)
+# Instalação: pip install -r requirements.txt
+
+# Manipulação e análise de dados
+pandas>=2.0
+numpy>=1.24
+
+# Testes estatísticos e modelagem
+scipy>=1.10
+statsmodels>=0.14
+
+# Geometria (diagramas de Voronoi)
+shapely>=2.0
+
+# Visualização
+matplotlib>=3.7
+
+# Ambiente de execução do notebook
+jupyterlab>=4.0
+ipykernel>=6.0
