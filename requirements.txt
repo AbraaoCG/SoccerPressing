@@ -18,3 +18,9 @@ matplotlib>=3.7
 # Ambiente de execução do notebook
 jupyterlab>=4.0
 ipykernel>=6.0
+
+# Seleção de Variáveis com método de Boruta
+Boruta==0.4.3
+
+# Scikit Learn
+scikit-learn==1.8.0
