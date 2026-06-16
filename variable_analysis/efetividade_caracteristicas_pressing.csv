@@ -1,0 +1,23 @@
+variavel_tatica,coeficiente_bruto,p_valor,odds_ratio,impacto_percentual
+C(action_under_pressure)[T.Dribble],0.5906958637812526,0.0,1.805,80.5
+C(zone)[T.Defensivo],0.30126465437954364,0.0134,1.352,35.2
+C(action_under_pressure)[T.Other],0.2956176686941421,0.0001,1.344,34.4
+C(trigger_type)[T.Other],0.2759252623208943,0.0,1.318,31.8
+numerical_superiority,0.0610384544220919,0.0003,1.063,6.3
+voronoi_area_carrier,-0.00023768136738044259,0.0,1.0,-0.0
+C(action_under_pressure)[T.Pass],-0.2006283897686297,0.0082,0.818,-18.2
+C(team_name)[T.Denmark],-0.23773568122669805,0.0336,0.788,-21.2
+C(team_name)[T.Czech Republic],-0.2604802073222056,0.0213,0.771,-22.9
+C(team_name)[T.England],-0.34889567669652805,0.0007,0.705,-29.5
+C(team_name)[T.Italy],-0.3600831896081428,0.0005,0.698,-30.2
+C(team_name)[T.Switzerland],-0.3655406507629952,0.0008,0.694,-30.6
+C(team_name)[T.France],-0.36686411530856433,0.0027,0.693,-30.7
+C(team_name)[T.Hungary],-0.3849522655523437,0.0036,0.68,-32.0
+C(team_name)[T.Turkey],-0.4186404874639984,0.0007,0.658,-34.2
+C(team_name)[T.Belgium],-0.4720640524953894,0.0001,0.624,-37.6
+C(team_name)[T.Wales],-0.5414357588306247,0.0,0.582,-41.8
+C(team_name)[T.Croatia],-0.5436296821847659,0.0,0.581,-41.9
+C(team_name)[T.Slovakia],-0.5481440628542196,0.0,0.578,-42.2
+C(team_name)[T.Sweden],-0.6217315289595683,0.0,0.537,-46.3
+C(team_name)[T.Finland],-0.6298515412968002,0.0,0.533,-46.7
+Intercept,-0.8545181832722357,0.0,0.425,-57.5
