@@ -1,5 +1,7 @@
 # -*- coding: utf-8 -*-
 """Gera o relatorio PDF de analise de variaveis (niveis de teste 1, 2 e 3)."""
+import os as _os; from pathlib import Path as _Path
+_os.chdir(str(_Path(__file__).resolve().parent.parent))  # roda a partir da raiz do projeto
 import os
 import numpy as np
 import pandas as pd

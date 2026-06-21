@@ -1,0 +1,4 @@
+abordagem,prediz,auc_principal,metrica,reliab_player,leve,nota
+A — insight do alvo,P(perde|contexto),0.7119,auc(y_5s_9m),n/a (modelo de contexto),"sim (GBT, ~s)",geometria isolada 0.690 | marginal +0.067
+B — survival + xBLV,hazard -> P(perde<=5s) + valor,0.6555,auc(y_5s),"-0.032 (Spearman, n=83)",sim (GBT person-period),= A em predicao; rating de jogador instavel
+C — contrafactual decisao,P(reter|opcao) -> regret,0.623,auc(reter|opcao),nan (so 1 jogador qualifica),"sim, mas dados escassos",so 2798 passes rotulados; metrica nao validavel aqui
