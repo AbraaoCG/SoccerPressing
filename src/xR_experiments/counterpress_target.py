@@ -79,12 +79,12 @@ def process_match(mid):
 
 def compare(df, tgt, scope):
     d = df if scope == 'global' else df[df['att_third'] == 1]
-    cp = d[d['is_counterpress'] == 1][tgt]; rg = d[d['is_counterpress'] == 0][tgt]
-    a, b = int(cp.sum()), int(len(cp) - cp.sum())
+    counterPress = d[d['is_counterpress'] == 1][tgt]; rg = d[d['is_counterpress'] == 0][tgt]
+    a, b = int(counterPress.sum()), int(len(counterPress) - counterPress.sum())
     c, e = int(rg.sum()), int(len(rg) - rg.sum())
     chi2, p, _, _ = stats.chi2_contingency([[a, b], [c, e]])
-    rcp = cp.mean() if len(cp) else np.nan; rrg = rg.mean() if len(rg) else np.nan
-    return dict(alvo=tgt, escopo=scope, n_CounterPress=len(cp), taxa_CounterPress=round(float(rcp), 4),
+    rcp = counterPress.mean() if len(counterPress) else np.nan; rrg = rg.mean() if len(rg) else np.nan
+    return dict(alvo=tgt, escopo=scope, n_CounterPress=len(counterPress), taxa_CounterPress=round(float(rcp), 4),
                 n_reg=len(rg), taxa_reg=round(float(rrg), 4),
                 razao=round(float(rcp / rrg), 3) if rrg else np.nan,
                 chi2=round(float(chi2), 3), p=float(p), signif=bool(p < 0.05))
