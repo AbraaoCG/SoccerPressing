@@ -1,4 +1,4 @@
-alvo,escopo,n_cp,taxa_cp,n_reg,taxa_reg,razao,chi2,p,signif
+alvo,escopo,n_CounterPress,taxa_CounterPress,n_reg,taxa_reg,razao,chi2,p,signif
 y_10s,global,5144,0.3037,10814,0.269,1.129,20.583,5.711579067677942e-06,True
 y_10s,terco_ofensivo,2100,0.2952,1275,0.24,1.23,11.883,0.0005665908016433371,True
 y_5s,global,5144,0.2255,10814,0.1938,1.163,21.351,3.825000221631021e-06,True

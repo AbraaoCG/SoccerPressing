@@ -14,11 +14,21 @@
 /variable_analysis/
 /express_analysis/
 /star_analysis/
+/counterpress_analysis/
 
 # binarios C++ (gerados; ~MB cada)
 /src/cpp/io/
 /src/cpp/train.exe
 /src/cpp/*.o
+
+# LaTeX — intermediarios em paper/ (mantem .tex/.bib/.sty/.bst/.png/.pdf e figs/)
+paper/*.aux
+paper/*.log
+paper/*.bbl
+paper/*.blg
+paper/*.out
+paper/*.synctex.gz
+paper/*.toc
 
 # Python
 __pycache__/

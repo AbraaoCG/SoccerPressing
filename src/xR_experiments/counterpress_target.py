@@ -84,7 +84,7 @@ def compare(df, tgt, scope):
     c, e = int(rg.sum()), int(len(rg) - rg.sum())
     chi2, p, _, _ = stats.chi2_contingency([[a, b], [c, e]])
     rcp = cp.mean() if len(cp) else np.nan; rrg = rg.mean() if len(rg) else np.nan
-    return dict(alvo=tgt, escopo=scope, n_cp=len(cp), taxa_cp=round(float(rcp), 4),
+    return dict(alvo=tgt, escopo=scope, n_CounterPress=len(cp), taxa_CounterPress=round(float(rcp), 4),
                 n_reg=len(rg), taxa_reg=round(float(rrg), 4),
                 razao=round(float(rcp / rrg), 3) if rrg else np.nan,
                 chi2=round(float(chi2), 3), p=float(p), signif=bool(p < 0.05))

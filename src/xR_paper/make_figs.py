@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-"""make_figs.py — gera as figuras do artigo (PNG) na pasta do template SBPO.
+"""make_figs.py — gera as figuras do artigo (PNG) em paper/figs/ (dentro do repositorio).
 Figuras: efeito do alvo, ablacao da geometria, calibracao (logit+GBT), curva de ganho/lift,
 e o diagrama de fluxo de aplicacao do xR. Usa o cache express (91k)."""
 import os, sys
@@ -17,7 +17,7 @@ from sklearn.calibration import calibration_curve
 import express_data as xd
 from gbt_util import make_gbt, fit_gbt, proba
 
-FIG = Path(r"C:\Users\Abraao Ideapad3\Documents\Projetos\COE609\Template_SBPO2026_LaTeX_ptbr\Template_SBPO2026_LaTeX_ptbr\figs")
+FIG = Path('paper/figs')   # figuras do artigo, dentro do repositorio (cwd = raiz via express_data)
 FIG.mkdir(parents=True, exist_ok=True)
 NAVY = '#26215C'; PURPLE = '#534AB7'; TEAL = '#1D9E75'; TERRA = '#D85A30'; SAND = '#B4B2A9'
 plt.rcParams.update({'font.size': 11, 'axes.edgecolor': '#888780', 'axes.linewidth': 0.8})
