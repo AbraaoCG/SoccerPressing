@@ -10,6 +10,7 @@
 \usepackage{fancyhdr}
 \usepackage{graphicx}
 \usepackage{booktabs}
+\usepackage{placeins}
 \pagestyle{fancy}
 \fancyhf{}
 \fancyhead[C]{\includegraphics[scale=0.5]{sbpo2026-header-logo.png}}
@@ -75,7 +76,6 @@ Sports analytics, Machine learning, Calibrated models.
 \noindent{Paper topics: Statistics; Data Analysis; Sports Applications.}
 \end{keywords}
 
-\newpage
 \section{Introdução}
 
 O \emph{pressing} --- a pressão coordenada sobre o portador da bola e seus arredores --- tornou-se um pilar tático do futebol de elite. Quantificar sua eficácia, e em particular avaliar \textbf{se um jogador deveria ou não perder a posse} em um contexto específico, é de interesse direto para comissões técnicas, no treino, na análise de adversário e no \emph{scouting}. A literatura recente ataca o problema com dados de eventos e, mais recentemente, dados posicionais \citep{robberechts2019,merckx2021,lee2025express}, mas duas lacunas persistem: (i) os modelos preditivos estacionam em desempenho modesto (AUC $\approx$ 0,60), sem uma explicação clara do porquê; e (ii) os \emph{ratings} individuais de jogador são apresentados de forma anedótica, sem auditoria de confiabilidade.
@@ -283,9 +283,56 @@ Alerta de jogada isolada & $\approx$84\% falso alarme & Não \\
 \end{tabular}
 \end{table}
 
+\subsection{Contexto do evento: o tipo de gatilho adiciona sinal?}
+Uma análise complementar caracterizou \emph{gatilhos de pressão} pelo passe adversário que precede a pressão (recuo, passe lateral, passe perto da linha lateral, cobrança de lateral) e pela situação do portador (isolado, sem companheiro a $\le$15\,m). Avaliamos, na Euro 2020 (13.999 pressões), se o tipo de gatilho \textbf{acrescenta sinal} ao modelo logístico, com um baseline \emph{honesto} (todas as pressões) e o alvo \texttt{y\_5s\_5m}.
+
+\textbf{Descritivamente}, os gatilhos diferem bastante (Tabela~\ref{tab:trig}): pressionar após um \emph{recuo} recupera muito menos (razão 0,30 sobre o baseline), enquanto após \emph{cobrança de lateral} recupera mais (1,73). \textbf{Como sinal preditivo, porém, o tipo de gatilho quase nada acrescenta:} incluir os indicadores de gatilho na logística altera a AUC de 0,702 para 0,694 sob \texttt{y\_5s\_5m} ($\Delta=-0{,}008$) e de 0,599 para 0,608 sob \texttt{y\_5s} ($+0{,}009$). Ou seja, sob o alvo estrito a \textbf{geometria já captura o sinal}, e a categoria do gatilho é \emph{descritiva/explicativa}, não incrementalmente preditiva --- coerente com a tese de que o ganho vem do alvo e da configuração espacial, não de mais contexto categórico.
+
+\begin{table}[ht]
+\centering
+\caption{Recuperação por gatilho na Euro 2020 (alvo \texttt{y\_5s\_5m}; baseline = todas as pressões, 6,1\%).}
+\label{tab:trig}
+\begin{tabular}{lccc}
+\toprule
+Gatilho & $n$ & Recuperação & Razão \\
+\midrule
+Cobrança de lateral & 601 & 10,5\% & 1,73 \\
+Perto da linha lateral & 1.487 & 6,3\% & 1,04 \\
+Passe lateral & 2.455 & 4,6\% & 0,76 \\
+Jogador isolado & 1.794 & 4,2\% & 0,69 \\
+Recuo (passe para trás) & 891 & 1,8\% & 0,30 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\subsection{Contrapressão: a vantagem persiste sob o alvo estrito?}
+Outra análise complementar isolou a \emph{contrapressão} --- pressão até 5\,s após a própria equipe perder a bola --- e comparou sua eficácia à da pressão regular no terço ofensivo. Sob o alvo frouxo (recuperação em $\le$10\,s), a contrapressão recupera mais (29,5\% \emph{vs.}\ 24,0\%; $p<0{,}001$), confirmando a literatura. Reavaliamos sob o alvo estrito \texttt{y\_5s\_5m}: na comparação \emph{bruta} a diferença deixa de ser significativa (6,7\% \emph{vs.}\ 6,1\%; $p=0{,}14$), \textbf{mas} isso é um artefato de confundimento por zona --- a contrapressão concentra-se no terço ofensivo, onde a recuperação imediata-e-local é mais rara. Controlando a zona numa logística, a contrapressão volta a ter efeito positivo e significativo (\emph{odds ratio} \textbf{1,36}; IC\,95\% $[1{,}18;\,1{,}56]$). \textbf{Conclusão:} o benefício da contrapressão é real mesmo no alvo estrito, porém menor e \emph{dependente de zona} --- mais um caso em que a definição do alvo e o contexto espacial determinam a leitura.
+
 \section{Aplicação prática}
 
 A Figura~\ref{fig:flow} resume o fluxo de uso do xR por uma equipe de analistas e comissão técnica. Após cada jogo, o modelo pontua toda pressão; os xR sobem de jogada para \textbf{zona, gatilho e time}, onde a leitura é confiável. As aplicações naturais são: \emph{(i)} \textbf{análise de adversário} (onde e como o próximo oponente recupera/perde a bola, alimentando o plano de pressing); \emph{(ii)} \textbf{treino} (desenho de gatilhos a partir de padrões esperados \emph{vs.} realizados); \emph{(iii)} \textbf{scouting} (métricas agregadas com amostra grande, cruzadas com observação); e \emph{(iv)} \textbf{revisão pós-jogo}, comparando o xR esperado com o que de fato aconteceu e priorizando os clipes de maior discrepância. Em todas as etapas, o modelo \emph{sugere}; o analista contextualiza com vídeo; a comissão técnica decide.
+
+\textbf{Exemplos concretos.} Para ilustrar com rigor, treinamos a logística em 36 jogos da Euro 2020 e aplicamos o xR a 15 jogos de \emph{teste} que o modelo nunca viu (taxa-base 5,5\%). Em todos os casos, a \emph{predição} é o xR de cada pressão --- a probabilidade de a equipe que pressiona recuperar a bola em $\le$5\,s e a $\le$5\,m.
+
+\emph{Análise de adversário (pré-jogo).} À pergunta \emph{``Vamos enfrentar a Itália --- em que zona a nossa pressão tem maior chance de recuperar a bola?''}, o modelo pontua as 591 pressões sofridas pela Itália e agrega o xR por zona: a pressão rende mais no \textbf{terço defensivo} dela (xR médio 8,4\%) do que no de ataque (3,8\%) --- onde priorizar o gatilho. O padrão se repete contra Suíça (7,7\% \emph{vs.}\ 3,5\%) e Espanha (9,4\% \emph{vs.}\ 4,3\%).
+
+\emph{Revisão pós-jogo (xR esperado \emph{vs.}\ realizado, Figura~\ref{fig:usecase}).} À pergunta \emph{``No jogo França$\times$Suíça, a pressão da Suíça rendeu o que se esperava?''}, o modelo prevê o xR das 220 pressões da Suíça e os soma: \textbf{13,9 recuperações esperadas} contra \textbf{11 realizadas} ($-2{,}9$) --- a equipe pressionou bem, mas converteu \emph{abaixo} do esperado. As pressões mais instrutivas para o vídeo são as de \textbf{xR alto que falharam}: situações em que a geometria \emph{favorecia} a recuperação (xR 18--21\%) e, ainda assim, a bola não foi retomada. São, por definição, as melhores oportunidades perdidas --- revisá-las mostra \emph{o que deu errado apesar de um bom posicionamento}, e por isso viram os primeiros \emph{clipes} de revisão.
+
+\emph{Triagem de vídeo / treino.} À pergunta \emph{``Temos pouco tempo --- o que revisar primeiro?''}, ordenam-se todas as pressões pelo xR. Como o xR \emph{concentra} as recuperações, revisar apenas a fração de maior xR cobre a maior parte delas com pouco vídeo: as \textbf{10\% de maior xR} têm densidade de recuperação \textbf{2,9$\times$} a taxa-base e contêm \textbf{28\%} de todas as recuperações do conjunto; subindo para 20\% do vídeo, captura-se 44\%. É a tradução direta do poder de \emph{ranqueamento} do modelo em economia de análise. As Figuras~\ref{fig:usecase} e~\ref{fig:usecase2} trazem o passo a passo da revisão pós-jogo em dois exemplos e dois protocolos de validação (36 jogos de treino/15 de teste e 47/4), ilustrando que a história não depende do tamanho do \emph{held-out}.
+
+\begin{figure}[ht]
+\centering
+\includegraphics[width=0.95\textwidth]{figs/fig_usecase.png}
+\caption{Passo a passo de um exemplo real (\textbf{36 jogos de treino, 15 de teste} \emph{held-out}): da pergunta da comissão à resposta do xR, na revisão pós-jogo de França$\times$Suíça.}
+\label{fig:usecase}
+\end{figure}
+
+\begin{figure}[ht]
+\centering
+\includegraphics[width=0.95\textwidth]{figs/fig_usecase2.png}
+\caption{O mesmo passo a passo com mais dados de treino (\textbf{47 jogos de treino, 4 de teste} \emph{held-out}): revisão pós-jogo de Itália$\times$Inglaterra. A leitura é a mesma, ilustrando que o fluxo não depende do tamanho do \emph{held-out}.}
+\label{fig:usecase2}
+\end{figure}
 
 \begin{figure}[ht]
 \centering
@@ -294,6 +341,7 @@ A Figura~\ref{fig:flow} resume o fluxo de uso do xR por uma equipe de analistas 
 \label{fig:flow}
 \end{figure}
 
+\FloatBarrier
 \section{Conclusão}
 
 Apresentamos o xR, um modelo logístico calibrado de recuperação esperada sob pressão. O resultado mais importante é metodológico: a \textbf{definição do alvo} --- e não a sofisticação do modelo --- determina a previsibilidade e o quanto a geometria dos jogadores carrega sinal; um alvo espacialmente restrito eleva a AUC de 0,59 para 0,70 e torna a geometria mais informativa. Um modelo leve e interpretável basta para o uso que importa na ponta: análise de adversário, treino, \emph{scouting} e revisão pós-jogo, sempre em agregado e com probabilidades calibradas. Delimitamos o escopo com evidência: \emph{ratings} individuais de jogador não são confiáveis no volume de dados de torneios. Como trabalho futuro, destacam-se a ponderação por valor (xT/VAEP) do risco de perda, formulações de sobrevivência para o horizonte temporal, e a validação externa dos \emph{ratings} com dados de temporada completa.
