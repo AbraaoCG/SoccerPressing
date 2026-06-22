@@ -72,7 +72,7 @@
   \centering
   \includegraphics[height=0.62\textheight]{figs/slide_counterpress.png}
 
-  {\small Clara no alvo frouxo; no estrito \alert{some na comparação bruta} (confundimento por zona) e
+  {\small Clara no alvo permissivo; no estrito \alert{some na comparação bruta} (confundimento por zona) e
   \alert{reaparece ao controlar a zona} (OR 1,36).}
 \end{frame}
 
@@ -86,27 +86,29 @@
 \end{frame}
 
 % ---- 6. Estudo de impacto da geometria ----
-\begin{frame}{Impacto da geometria (achado central)}
+\begin{frame}{Impacto da geometria --- relação dose-resposta}
   \begin{columns}[T]
-    \begin{column}{0.5\textwidth}
-      \centering\includegraphics[width=\linewidth]{figs/fig_target.png}\\
-      {\scriptsize Alvo local (\,$\leq$5\,s e $\leq$5\,m\,): \alert{0,59 $\to$ 0,70}}
+    \begin{column}{0.56\textwidth}
+      \centering\includegraphics[width=\linewidth]{figs/fig_ladder.png}
     \end{column}
-    \begin{column}{0.5\textwidth}
-      \centering\includegraphics[width=\linewidth]{figs/fig_ablation.png}\\
-      {\scriptsize Geometria = maior bloco; \alert{mais informativa} sob o alvo estrito}
+    \begin{column}{0.44\textwidth}
+      \small
+      \begin{itemize}
+        \item Alvo com raio: \alert{atribuído ao exPress}; nós \alert{explicamos por quê}.
+        \item Quanto mais \emph{local} o alvo, mais preditiva a geometria.
+        \item Mecanismo: \alert{76\%} das recuperações em $\leq$10\,s são ruído causal (mediana 13\,m).
+        \item Controle de \emph{base rate} + \emph{bootstrap}: ganho \alert{real}, não artefato.
+      \end{itemize}
     \end{column}
   \end{columns}
-  \vspace{1mm}
-  \centering{\small Controle de \emph{base rate} (0,573) + \emph{bootstrap} (IC95\% [0,10;\,0,12]):
-  o ganho é \alert{real}, não artefato.}
 \end{frame}
 
 % ---- 7. Conclusões ----
 \begin{frame}{Conclusões}
   \begin{enumerate}
-    \item[\textcolor{rxpurple}{\textbf{1.}}] \textbf{O alvo define o sinal.} Restringir no tempo \emph{e} no espaço eleva a AUC de
-    0,59 para \alert{0,70} --- e torna a geometria mais informativa.
+    \item[\textcolor{rxpurple}{\textbf{1.}}] \textbf{Mecanismo (dose-resposta).} Quanto mais local o alvo, mais informativa
+    a geometria (só-geometria 0,59$\to$\alert{0,68}); \alert{76\%} das recuperações em $\leq$10\,s são ruído causal.
+    O alvo é da literatura --- nós explicamos \emph{por quê}.
     \vspace{2mm}
     \item[\textcolor{rxpurple}{\textbf{2.}}] \textbf{Modelo leve e calibrado.} Uma regressão logística (ECE 0,003) iguala
     GNN/CNN e é interpretável.
