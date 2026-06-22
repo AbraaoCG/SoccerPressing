@@ -30,6 +30,16 @@ paper/*.out
 paper/*.synctex.gz
 paper/*.toc
 
+# LaTeX/Beamer — intermediarios em slides/ (mantem .tex/.pdf e figs/)
+slides/*.aux
+slides/*.log
+slides/*.nav
+slides/*.snm
+slides/*.out
+slides/*.toc
+slides/*.vrb
+slides/*.synctex.gz
+
 # Python
 __pycache__/
 *.pyc
