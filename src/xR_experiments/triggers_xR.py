@@ -22,7 +22,8 @@ OUT = 'star_analysis'; os.makedirs(OUT, exist_ok=True)
 COMP_ID, SEASON_ID = 55, 43                     # UEFA Euro 2020 (mesma base do colega)
 WIN10, PASSWIN = 10.0, 6.0
 ISO_R, BACK_M, LAT_M, SIDE_M = 15.0, 10.0, 10.0, 5.0
-FLAGS = ['recuo', 'lateral', 'perto_lateral', 'cobranca_lateral', 'isolado', 'gatilho_passe']
+BACK_RUN_VX_MPS = 5.0  # mínimo de velocidade horizontal contrária ao ataque
+FLAGS = ['recuo', 'lateral', 'perto_lateral', 'cobranca_lateral', 'isolado', 'correndo_tras', 'gatilho_passe']
 
 
 def ece(y, p, bins=10):
@@ -112,6 +113,12 @@ def process_match(mid):
                     fl['lateral'] = 1
                 if (ey <= SIDE_M or ey >= 80 - SIDE_M) and c['ptype'] != 'Throw-in':
                     fl['perto_lateral'] = 1
+
+                pass_to_pressure_dt = tp - float(c['t'])
+                if pass_to_pressure_dt > 0:
+                    receiver_vx = (float(carrier[0]) - ex) / pass_to_pressure_dt
+                    if receiver_vx <= -BACK_RUN_VX_MPS:
+                        fl['correndo_tras'] = 1
             if c['ptype'] == 'Throw-in':
                 fl['cobranca_lateral'] = 1
         fl['isolado'] = int(prim.get('nearest_sup_dist', 99) > ISO_R)   # portador sem companheiro <=15 m
