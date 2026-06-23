@@ -2,7 +2,7 @@
 """make_ladder_fig.py — figura da DOSE-RESPOSTA: AUC (todas as variaveis) e AUC (so geometria)
 ao longo da escada de alvos, ordenados do mais frouxo ao mais local. Mostra que a geometria fica
 mais preditiva conforme o alvo localiza. Le star_analysis/target_ladder.csv.
-Saida: paper/figs/fig_ladder.png. Uso: ./venv1/Scripts/python.exe src/xR_paper/make_ladder_fig.py
+Saida: paper/figs/fig_ladder.png. Uso: ./venv1/Scripts/python.exe src/xR_experiments/make_ladder_fig.py
 """
 import os
 from pathlib import Path

@@ -24,35 +24,21 @@ Analise_pressao_1/
 │   ├── pressing_v1.ipynb                 → §4.1  Validação estatística do input
 │   └── classify_pressing2.ipynb          → §4.2  Geometria de adversários (conceito)
 │
-├── src/                                  # pipeline (rodar a partir da raiz; cada script faz chdir)
-│   ├── geometry_models/                  → §4.2  O platô ~0,59 (a arquitetura não move o teto)
-│   │   ├── run2b.py                       — todos os modelos de geometria (regras/k-means/GNN/CNN/stacking)
-│   │   └── classify_cnn_voronoi.py        — seleção por vizinhos de Voronoi (CNN)
+├── src/                                  # todo o código (rodar a partir da raiz; cada script faz chdir)
+│   ├── xR_experiments/                   # TODOS os scripts Python que geram resultados do artigo
+│   │   ├── express_data.py · gbt_util.py      — backbone (features/5 alvos/cache) + fábrica do GBT
+│   │   ├── exp1..exp6 · run_all.py            — varredura de alvos, ablação, cross-comp, CNN, platô
+│   │   ├── target_ladder_ablation.py          — dose-resposta: AUC só-geometria por alvo (fig_ladder)
+│   │   ├── label_noise.py · control_baserate.py — ruído de rótulo (76%) e controle de base rate
+│   │   ├── run2b.py · classify_cnn_voronoi.py — modelos de geometria (platô) e seleção por Voronoi
+│   │   ├── star_data*.py · xt_lite.py · B_survival.py — builders + confiabilidade do rating (0,09)
+│   │   ├── eval_logit_vs_gbt.py · eval_usability.py   — logística vs GBT, calibração, lift
+│   │   ├── triggers_xR.py · counterpress_target.py    — análises complementares (gatilhos, contrapressão)
+│   │   ├── usecases_xR.py                     — exemplos de uso (held-out) + figura passo a passo
+│   │   └── make_figs.py · make_ladder_fig.py · make_slides_*.py — figuras do artigo e dos slides
 │   │
-│   ├── xR_experiments/                   → §4.3–4.5  O pivô do alvo, ablação e cross-competition
-│   │   ├── express_data.py                — backbone: features tabulares + raster + 5 alvos (cache)
-│   │   ├── gbt_util.py                    — fábrica do GBT (XGBoost / HistGBDT) + métricas
-│   │   ├── exp1_xgboost.py                — GBT vs logística (mesmo alvo y_10s)
-│   │   ├── exp2_target.py                 — varredura de alvos (o pivô: y_5s_5m → 0,70)
-│   │   ├── exp3_crosscomp.py              — split aleatório vs held-out vs GroupKFold (sem leakage)
-│   │   ├── exp4_soccermap_cnn.py          — CNN multicanal estilo SoccerMap
-│   │   ├── exp6_ablation.py               — ablação geometria vs posição vs contexto
-│   │   ├── exp5_combined.py               — (exploratório) melhor alvo + cross-comp + stacking
-│   │   └── run_all.py                     — consolida express_analysis/summary.csv
-│   │
-│   ├── xR_paper/                         → §5–6  Modelo proposto, calibração e aplicação
-│   │   ├── star_data.py / star_data_all.py — builders (FIFA WC 2022 / todas as competições) p/ §5.3
-│   │   ├── xt_lite.py                      — grade de valor (xT) usada na confiabilidade
-│   │   ├── B_survival.py                   — hazard + xBLV; confiabilidade do rating (0,09) §5.3
-│   │   ├── eval_logit_vs_gbt.py            — Tabela 2 (logística vs GBT no alvo proposto)
-│   │   ├── eval_usability.py               — calibração, PR-AUC, lift/triagem (§5.2)
-│   │   └── make_figs.py                    — gera as 5 figuras do artigo (→ paper/figs/)
-│   │
-│   └── cpp/                              → §4.2  GNN/CNN em C++ (alta performance)
-│       ├── bridge.py                       — ponte Python↔C++ (prepara dados, roda exe, AUC)
-│       ├── train.cpp / nn.hpp              — GNN manual (Eigen)
-│       ├── cnn_mlpack.cpp                  — CNN via mlpack 4.x
-│       └── build.sh                        — compilação (MSYS2 UCRT64)
+│   └── cpp/                              # GNN/CNN em C++ — gera a linha "GNN Voronoi" do platô
+│       └── bridge.py · train.cpp · nn.hpp · cnn_mlpack.cpp · build.sh
 │
 ├── variable_analysis/  classify_analysis/  cnn_voronoi_analysis/   # tabelas geradas (ignoradas no git)
 ├── express_analysis/   star_analysis/                              #   "
@@ -79,21 +65,30 @@ Analise_pressao_1/
 
 Cada tabela/figura do artigo é gerada por um script deste repositório:
 
+Todo o código Python que gera resultados do artigo está em **`src/xR_experiments/`** (caminhos
+abaixo relativos a essa pasta, salvo indicação). Exceções por natureza: o notebook de §5.1 e o
+pipeline C++ de §5.2 (linha "GNN Voronoi" do platô). Para um **índice dos scripts agrupados por
+categoria e papel** (backbone *vs.* entry-point), veja
+[`src/xR_experiments/README.md`](src/xR_experiments/README.md).
+
 | Seção do artigo | Tabela / Figura | Código que gera | Saída |
 |---|---|---|---|
-| §4.1 Validação do input | — | `notebooks/pressing_v1.ipynb` | `variable_analysis/Run1_*` |
-| §4.2 Representações de entrada | **Tabela 1** | (descrição; dados de `run2b`/`exp4`) | — |
-| §4.2 O platô ~0,59 | **Tabela 2** | `src/geometry_models/run2b.py` · `src/xR_experiments/exp4_soccermap_cnn.py` · `src/cpp/bridge.py` | `classify_analysis/` · `cnn_voronoi_analysis/` |
-| §4.3 O pivô do alvo | **Figura 1** | `src/xR_experiments/exp2_target.py` | `express_analysis/exp2.csv` |
-| §4.4 Ablação | **Figura 2** | `src/xR_experiments/exp6_ablation.py` | `express_analysis/exp6_ablation.csv` |
-| §4.5 Cross-competition | (texto) | `src/xR_experiments/exp3_crosscomp.py` | `express_analysis/exp3.csv` |
-| §5.1 Logística vs GBT | **Tabela 3** | `src/xR_paper/eval_logit_vs_gbt.py` | `star_analysis/logit_vs_gbt.csv` |
-| §5.2 Calibração + lift | **Figuras 3–4** | `src/xR_paper/eval_usability.py` · `make_figs.py` | `star_analysis/usability.csv` |
-| §5.3 Confiabilidade do rating | **Tabela 4** | `src/xR_paper/B_survival.py` (+ `star_data_all.py`) | `star_analysis/B_*.csv` |
-| §6 Aplicação (fluxo do xR) | **Figura 5** | `src/xR_paper/make_figs.py` (`fig_flow`) | `paper/figs/fig_flow.png` |
+| §5.1 Validação do *input* | — | `notebooks/pressing_v1.ipynb` | `variable_analysis/` |
+| §5.2 Representações + platô | Tab. 1–2 | `run2b.py` · `exp4_soccermap_cnn.py` · `src/cpp/bridge.py` | `classify_analysis/` · `cnn_voronoi_analysis/` |
+| §5.3 Dose-resposta (alvo × geometria) | `fig_ladder` | `target_ladder_ablation.py` · `label_noise.py` · `make_ladder_fig.py` | `star_analysis/target_ladder.csv` · `label_noise.csv` |
+| §5.4 Ablação | `fig_ablation` | `exp6_ablation.py` · `make_figs.py` | `express_analysis/exp6_ablation.csv` |
+| §5.5 Controle de *base rate* + *bootstrap* | — | `control_baserate.py` | `star_analysis/control_baserate.csv` |
+| §5.6 Generalização entre competições | — | `exp3_crosscomp.py` | `express_analysis/exp3.csv` |
+| §6.1 Logística *vs.* GBT | Tabela 3 | `eval_logit_vs_gbt.py` | `star_analysis/logit_vs_gbt.csv` |
+| §6.2 Calibração + curva de ganho | `fig_calibration` · `fig_lift` | `eval_usability.py` · `make_figs.py` | `star_analysis/usability.csv` |
+| §6.3 Confiabilidade do *rating* | Tabela 4 | `B_survival.py` (+ `star_data_all.py`) | `star_analysis/B_*.csv` |
+| §6.4 Gatilhos (*triggers*) | Tabela 5 | `triggers_xR.py` | `star_analysis/triggers_*.csv` |
+| §6.5 Contrapressão | — | `counterpress_target.py` | `star_analysis/counterpress_*.csv` |
+| §7 Aplicação prática | `fig_usecase` · `fig_usecase2` · `fig_flow` | `usecases_xR.py` · `make_figs.py` | `star_analysis/usecases.md` · `paper/figs/` |
 
-> Todas as **5 figuras** do artigo são geradas por `src/xR_paper/make_figs.py`, que as grava em
-> **`paper/figs/`**, junto do `artigo-xR.tex`.
+> As figuras do artigo são geradas por `src/xR_experiments/make_figs.py` e `make_ladder_fig.py`,
+> que as gravam em **`paper/figs/`**, junto do `artigo-xR.tex`. As dos slides: `make_slides_figs.py`
+> e `make_slides_extra.py` (→ `slides/figs/`).
 
 ## Resultados (tabelas geradas)
 
@@ -106,7 +101,7 @@ versionados): `variable_analysis/` (testes de hipótese), `classify_analysis/` (
 
 O artigo está em **`paper/`** e é **autocontido** — só precisa de uma distribuição LaTeX instalada
 (**MiKTeX** ou **TeX Live**; *não* incluída no repositório). As figuras já vêm em `paper/figs/`;
-para regenerá-las dos dados, rode antes `./venv1/Scripts/python.exe src/xR_paper/make_figs.py`.
+para regenerá-las dos dados, rode antes `./venv1/Scripts/python.exe src/xR_experiments/make_figs.py`.
 
 ```
 cd paper
@@ -130,9 +125,9 @@ MSYS2 UCRT64 (`g++`, Eigen, mlpack, armadillo).
 ./venv1/Scripts/python.exe src/xR_experiments/express_data.py     # constrói o cache (91k pressões)
 ./venv1/Scripts/python.exe src/xR_experiments/run_all.py          # exp1..exp5 + summary
 ./venv1/Scripts/python.exe src/xR_experiments/exp6_ablation.py    # ablação
-./venv1/Scripts/python.exe src/xR_paper/eval_logit_vs_gbt.py      # Tabela 2
-./venv1/Scripts/python.exe src/xR_paper/eval_usability.py         # calibração + lift
-./venv1/Scripts/python.exe src/xR_paper/make_figs.py              # figuras do artigo
+./venv1/Scripts/python.exe src/xR_experiments/eval_logit_vs_gbt.py   # Tabela 3 (logística vs GBT)
+./venv1/Scripts/python.exe src/xR_experiments/eval_usability.py      # calibração + lift
+./venv1/Scripts/python.exe src/xR_experiments/make_figs.py           # figuras do artigo
 
 # C++ (após compilar src/cpp via build.sh)
 ./venv1/Scripts/python.exe src/cpp/bridge.py prepare --select voronoi

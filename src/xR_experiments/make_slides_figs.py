@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 """make_slides_figs.py — gera os graficos de resultados da APRESENTACAO (slides/figs/).
 Numeros fixos (verificados nas analises): competicoes, plato de modelos, contrapressao, gatilhos.
-Uso: ./venv1/Scripts/python.exe src/xR_paper/make_slides_figs.py
+Uso: ./venv1/Scripts/python.exe src/xR_experiments/make_slides_figs.py
 """
 import os
 from pathlib import Path
@@ -64,15 +64,16 @@ def counterpress():
 # 4) gatilhos: recuperacao por gatilho (alvo y_5s_5m), baseline 6,1%
 def triggers():
     base = 6.1
-    t = [('Cobrança lat.', 10.5), ('Perto da lat.', 6.3), ('Passe lateral', 4.6), ('Isolado', 4.2), ('Recuo', 1.8)]
+    t = [('Cobrança lat.', 10.5), ('Correndo p/ trás', 6.8), ('Perto da lat.', 6.3),
+         ('Passe lateral', 4.6), ('Isolado', 4.2), ('Recuo', 1.8)]
     cols = [TEAL if v >= base else TERRA for _, v in t]
-    fig, ax = plt.subplots(figsize=(7.6, 3.9))
+    fig, ax = plt.subplots(figsize=(8.4, 3.9))
     bars = ax.bar([x[0] for x in t], [x[1] for x in t], color=cols)
     ax.axhline(base, ls='--', color=NAVY, lw=1.5); ax.text(4.4, base + 0.2, 'baseline 6,1%', color=NAVY, ha='right', fontsize=10)
     ax.bar_label(bars, labels=['%.1f%%' % v for _, v in t], padding=3, fontsize=11)
     ax.set_ylabel('recuperação ($\\leq$5 s & 5 m)'); ax.set_ylim(0, 12)
     ax.set_title('Gatilhos diferem — mas não adicionam sinal preditivo ($\\Delta$AUC $\\approx$0)', color=NAVY, weight='bold')
-    plt.setp(ax.get_xticklabels(), rotation=12, ha='right')
+    plt.setp(ax.get_xticklabels(), rotation=15, ha='right')
     save(fig, 'slide_triggers.png')
 
 

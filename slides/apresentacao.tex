@@ -103,6 +103,55 @@
   \end{columns}
 \end{frame}
 
+% ---- 7b. Base rate não explica o ganho ----
+\begin{frame}{O base rate explica o ganho? \alert{Não}}
+  \begin{columns}[T]
+    \begin{column}{0.54\textwidth}
+      \centering\includegraphics[width=\linewidth]{figs/slide_baserate.png}
+    \end{column}
+    \begin{column}{0.46\textwidth}
+      \small
+      \begin{itemize}
+        \item \textbf{ROC-AUC é invariante à prevalência} (estatística de ranqueamento).
+        \item \textbf{Controle:} rebaixar o alvo permissivo a 6,9\% (\emph{downsample}, 25$\times$) $\to$ AUC \alert{0,573} ($=$0,571 cheia).
+        \item \emph{Gap} estrito$-$permissivo $=$ \alert{$+0{,}113$}; IC95\% \emph{bootstrap} $[0{,}100;\,0{,}124]$.
+      \end{itemize}
+    \end{column}
+  \end{columns}
+\end{frame}
+
+% ---- 7c. Calibração ----
+\begin{frame}{Calibração --- habilita o uso agregado}
+  \begin{columns}[T]
+    \begin{column}{0.5\textwidth}
+      \centering\includegraphics[width=\linewidth]{figs/fig_calibration.png}
+    \end{column}
+    \begin{column}{0.5\textwidth}
+      \small ``20\% previsto $\Rightarrow$ $\approx$20\% observado''.\\[1mm]
+      \textbf{ECE} $=$ erro médio de calibração; \textbf{Brier} $=$ erro quadrático da probabilidade.
+      \begin{center}
+        \begin{tabular}{lcc}
+          \toprule
+          Modelo & ECE & Brier \\
+          \midrule
+          Logística & \textbf{0,002} & 0,063 \\
+          GBT & 0,003 & 0,062 \\
+          \bottomrule
+        \end{tabular}
+      \end{center}
+      \alert{Bem calibrado} $\Rightarrow$ legítimo em \textbf{agregado} (linhagem do xG).
+    \end{column}
+  \end{columns}
+\end{frame}
+
+% ---- 7d. Confiabilidade de ratings individuais ----
+\begin{frame}{Rating individual de jogador --- \alert{não confiável}}
+  \centering
+  \includegraphics[height=0.56\textheight]{figs/slide_reliability.png}
+
+  {\small \textbf{Split-half}: divide os jogos de cada jogador em 2, calcula o rating em cada metade e correlaciona entre jogadores. Deu \alert{0,09} (usável pede $\geq$0,5) --- causa: mediana de \alert{16 pressões/jogador}.}
+\end{frame}
+
 % ---- 7. Conclusões ----
 \begin{frame}{Conclusões}
   \begin{enumerate}
@@ -132,24 +181,46 @@
   {\small Pergunta da comissão $\to$ predição (xR por pressão) $\to$ resposta.}
 \end{frame}
 
-\begin{frame}{Casos de uso (teste \emph{held-out})}
+\begin{frame}{Caso de uso 1 --- análise de adversário (pré-jogo)}
   \small
-  \textbf{Análise de adversário:} pressionar a Itália rende mais no \alert{terço defensivo} (xR 8,4\% \emph{vs.} 3,8\%).
+  \textbf{Pergunta:} ``Vamos enfrentar a Itália --- em que zona a nossa pressão tem mais chance de recuperar a bola?''
 
-  \vspace{2mm}
-  \textbf{Triagem de vídeo:} ordenar pela maior xR concentra as recuperações --- muito sinal, pouco vídeo:
+  \vspace{1mm}
+  \textbf{Como:} pega as pressões \emph{sofridas} pela Itália (Itália em posse); o modelo dá o xR de
+  cada uma (\,xR $=$ chance de a Itália \alert{perder} a bola\,); agrega-se por terço do campo, na
+  ótica da Itália (que ataca à direita).
+
+  \vspace{1mm}
+  \textbf{Resultado:} xR médio bem maior no \alert{terço defensivo da Itália} (perto do gol dela),
+  \alert{8,4\%}, do que no terço de ataque dela, 3,8\%.
+
+  \vspace{1mm}
+  \textbf{Resposta:} a Itália perde mais a bola sob pressão \alert{alta} (no próprio campo de defesa)
+  --- é onde priorizar o \emph{gegenpressing}.
+\end{frame}
+
+\begin{frame}{Caso de uso 2 --- triagem de vídeo}
+  \small
+  \textbf{Pergunta:} ``Pouco tempo de análise --- quais pressões revisar primeiro?''
+
+  \vspace{1mm}
+  \textbf{Como:} \emph{ordene} todas as pressões pela xR (maior $\to$ menor) e revise só o
+  \textbf{topo}. Como xR alto recupera mais, as \alert{recuperações} (o time que pressiona ganha a
+  bola) se concentram no topo.
   \begin{center}
-    \begin{tabular}{lcc}
+    \begin{tabular}{ccc}
       \toprule
-      Fração revisada & \emph{lift} & recuperações capturadas \\
+      Vídeo revisado & Recuperações & \emph{lift} \\
+      (\% de maior xR) & encontradas & (vs.\ acaso) \\
       \midrule
-      top 5\%  & 3,4$\times$ & 17\% \\
-      top 10\% & 2,9$\times$ & 28\% \\
-      top 20\% & 2,2$\times$ & 44\% \\
+      5\%  & 17\% & 3,4$\times$ \\
+      10\% & \alert{28\%} & \alert{2,9$\times$} \\
+      20\% & 44\% & 2,2$\times$ \\
       \bottomrule
     \end{tabular}
   \end{center}
-  \centering \emph{O modelo sugere; o analista contextualiza com vídeo; a comissão decide.}
+  {\footnotesize \emph{lift} $=$ recuperações $\div$ \% revisado ($28\%\div10\%=2{,}9\times$ o acaso).
+  \textbf{Revisando 10\% do vídeo, acha-se 28\% de todas as recuperações.}}
 \end{frame}
 
 \end{document}

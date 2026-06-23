@@ -20,17 +20,22 @@ pdflatex artigo-xR
 
 ## De onde vem cada tabela/figura (artigo → código)
 
+Todo o código Python está em **`src/xR_experiments/`** (exceto o notebook de §5.1 e o C++ de §5.2).
+
 | Seção | Tabela / Figura | Script (em `Analise_pressao_1/`) |
 |---|---|---|
-| §4.2 Representações | Tabela 1 | (descrição) |
-| §4.2 Platô ~0,59 | Tabela 2 | `src/geometry_models/run2b.py`, `src/cpp/bridge.py` |
-| §4.3 Pivô do alvo | Figura 1 | `src/xR_experiments/exp2_target.py` |
-| §4.4 Ablação | Figura 2 | `src/xR_experiments/exp6_ablation.py` |
-| §4.5 Cross-competition | (texto) | `src/xR_experiments/exp3_crosscomp.py` |
-| §5.1 Logística vs GBT | Tabela 3 | `src/xR_paper/eval_logit_vs_gbt.py` |
-| §5.2 Calibração + lift | Figuras 3–4 | `src/xR_paper/eval_usability.py` |
-| §5.3 Confiabilidade | Tabela 4 | `src/xR_paper/B_survival.py` |
-| §6 Aplicação | Figura 5 | `src/xR_paper/make_figs.py` |
+| §5.1 Validação do *input* | — | `notebooks/pressing_v1.ipynb` |
+| §5.2 Representações + platô | Tab. 1–2 | `src/xR_experiments/run2b.py` · `exp4_soccermap_cnn.py` · `src/cpp/bridge.py` |
+| §5.3 Dose-resposta (alvo × geometria) | `fig_ladder` | `src/xR_experiments/target_ladder_ablation.py` · `label_noise.py` · `make_ladder_fig.py` |
+| §5.4 Ablação | `fig_ablation` | `src/xR_experiments/exp6_ablation.py` |
+| §5.5 Controle de *base rate* | — | `src/xR_experiments/control_baserate.py` |
+| §5.6 Cross-competition | — | `src/xR_experiments/exp3_crosscomp.py` |
+| §6.1 Logística vs GBT | Tabela 3 | `src/xR_experiments/eval_logit_vs_gbt.py` |
+| §6.2 Calibração + ganho | `fig_calibration` · `fig_lift` | `src/xR_experiments/eval_usability.py` |
+| §6.3 Confiabilidade do *rating* | Tabela 4 | `src/xR_experiments/B_survival.py` |
+| §6.4 Gatilhos | Tabela 5 | `src/xR_experiments/triggers_xR.py` |
+| §6.5 Contrapressão | — | `src/xR_experiments/counterpress_target.py` |
+| §7 Aplicação | `fig_usecase*` · `fig_flow` | `src/xR_experiments/usecases_xR.py` · `make_figs.py` |
 
-**As 5 figuras** (`figs/*.png`) são geradas por `src/xR_paper/make_figs.py`, que as grava
-diretamente nesta pasta.
+As figuras (`figs/*.png`) são geradas por `src/xR_experiments/make_figs.py` e `make_ladder_fig.py`,
+que as gravam diretamente nesta pasta.
