@@ -1,0 +1,2 @@
+n_amostras,raios,epochs,has_torch,kmax,grid,smoke
+1500,"[10.0, 20.0, 30.0]",1,True,20,48,True

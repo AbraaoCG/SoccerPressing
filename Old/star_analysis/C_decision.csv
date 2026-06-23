@@ -1,0 +1,2 @@
+abordagem,modelo,alvo,auc_opcao,acc,regret_medio,reliab_splithalf,n_jogadores_rel
+C,retencao por opcao (GBT),reter|opcao,0.623,0.8726,0.0464,,1

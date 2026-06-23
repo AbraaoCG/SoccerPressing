@@ -1,2 +1,58 @@
-/.claude/*
-/StatsBomb_2/*
+# dados (StatsBomb open-data) — NUNCA versionar
+/StatsBomb_2/
+/StatsBomb_2 - Copia/
+
+# ambiente virtual
+/venv1/
+
+# caches do pipeline (.pkl/.npz pesados)
+/cache/
+
+# artefatos de saida das analises (gerados; ~MB)
+/classify_analysis/
+/cnn_voronoi_analysis/
+/variable_analysis/
+/express_analysis/
+/star_analysis/
+/counterpress_analysis/
+
+# binarios C++ (gerados; ~MB cada)
+/src/cpp/io/
+/src/cpp/train.exe
+/src/cpp/*.o
+
+# LaTeX — intermediarios em paper/ (mantem .tex/.bib/.sty/.bst/.png/.pdf e figs/)
+paper/*.aux
+paper/*.log
+paper/*.bbl
+paper/*.blg
+paper/*.out
+paper/*.synctex.gz
+paper/*.toc
+
+# LaTeX/Beamer — intermediarios em slides/ (mantem .tex/.pdf e figs/)
+slides/*.aux
+slides/*.log
+slides/*.nav
+slides/*.snm
+slides/*.out
+slides/*.toc
+slides/*.vrb
+slides/*.synctex.gz
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+
+# Jupyter
+.ipynb_checkpoints/
+
+# editores / SO
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+
+# ferramentas internas
+/.claude/

@@ -1,0 +1,10 @@
+parte,alvo,bloco,taxa_pos,auc,acc
+alvo,y_5s,ALL,0.1999,0.6553,0.8001
+alvo,y_10s,ALL,0.2757,0.5837,0.7243
+alvo,y_5s_5m,ALL,0.0693,0.6977,0.9306
+alvo,y_5s_9m,ALL,0.1054,0.7119,0.8945
+ablacao,y_5s_9m,GEOM,0.1054,0.6899,0.8945
+ablacao,y_5s_9m,POS,0.1054,0.6264,0.8945
+ablacao,y_5s_9m,CTX,0.1054,0.5496,0.8945
+ablacao,y_5s_9m,POS+CTX,0.1054,0.6447,0.8945
+ablacao,y_5s_9m,ALL,0.1054,0.7119,0.8945
