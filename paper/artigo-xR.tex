@@ -197,12 +197,12 @@ CNN multicanal (estilo SoccerMap) & 0,593 \\
 \end{table}
 
 \subsection{O alvo e o sinal geométrico: uma relação dose-resposta}
-O alvo com restrição espacial (recuperar em $\le$5\,s e a $\le$5\,m) foi proposto por \citet{lee2025express} e ecoa convenções táticas (raio de pressão; regra dos 5--6\,s). Nossa contribuição não é o alvo, e sim \textbf{mostrar e explicar} por que ele funciona. A Figura~\ref{fig:ladder} revela uma \textbf{relação dose-resposta}: tanto a AUC quanto a \emph{AUC só-geometria} \textbf{crescem monotonicamente} conforme o alvo é localizado (geometria: 0,586 $\to$ 0,679; sub-escada espacial a 5\,s: 0,620 $\to$ 0,671 $\to$ 0,679). O mecanismo é a remoção de \textbf{ruído de rótulo}: \textbf{76\% das recuperações em $\le$10\,s ocorrem a $>$5\,m ou $>$5\,s} do ponto de pressão (mediana 13\,m), dificilmente causadas por aquela pressão; localizar o alvo as descarta e \emph{recupera} o sinal geométrico real.
+O alvo com restrição espacial (recuperar em $\le$5\,s e a $\le$5\,m) foi proposto por \citet{lee2025express} e ecoa convenções táticas (raio de pressão; regra dos 5--6\,s). Nossa contribuição não é o alvo, e sim \textbf{mostrar e explicar} por que ele funciona. A Figura~\ref{fig:ladder} revela uma \textbf{relação dose-resposta} ao longo dos \textbf{eixos naturais de localidade} do alvo --- \emph{tempo} (10\,s $\to$ 5\,s) e \emph{espaço} (sem raio $\to$ 9\,m $\to$ 5\,m), apertando \emph{uma} dimensão por passo: a \emph{AUC só-geometria} \textbf{cresce monotonicamente} de 0,586 a 0,679 (todas as variáveis, de 0,591 a 0,702). Um alvo baseado em \emph{sequência} (recuperar em $\le$2 ações) --- eixo distinto, sem teto direto de metros ou segundos --- também cai sobre o gradiente (só-geometria 0,637) e por isso é exibido \textbf{à parte} na figura: corrobora que o efeito independe de \emph{como} se mede a localidade. O mecanismo é a remoção de \textbf{ruído de rótulo}: \textbf{76\% das recuperações em $\le$10\,s ocorrem a $>$5\,m ou $>$5\,s} do ponto de pressão (mediana 13\,m), dificilmente causadas por aquela pressão; localizar o alvo as descarta e \emph{recupera} o sinal geométrico real.
 
 \begin{figure}[ht]
 \centering
 \includegraphics[width=0.74\textwidth]{figs/fig_ladder.png}
-\caption{Relação dose-resposta: a AUC (todas as variáveis) e a AUC só-geometria crescem conforme o alvo de recuperação é localizado no espaço e no tempo. O ganho vem do alvo, não da arquitetura (Tabela~\ref{tab:plateau}).}
+\caption{Relação dose-resposta ao longo dos eixos de tempo e espaço (linha principal); o alvo por sequência ($\le$2 ações), de eixo distinto, é mostrado à parte como ponto corroborativo. O ganho vem do alvo, não da arquitetura (Tabela~\ref{tab:plateau}).}
 \label{fig:ladder}
 \end{figure}
 
